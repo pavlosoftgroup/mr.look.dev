@@ -1,0 +1,5 @@
+name = Mr.Look
+description = Mr.Look theme
+core = 7.x
+base theme = bootstrap
+
