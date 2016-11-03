@@ -22,23 +22,23 @@ function social_icons_setting_form($form, &$form_state) {
   $form['setting'] = array(
     '#title' => t('Add icon'),
     '#type' => 'fieldset',
-    '#attributes' => array('class' => array('title')),
     '#required' => TRUE,
   );
   $form['setting']['title'] = array(
     '#title' => t('Title'),
     '#type' => 'textfield',
     '#maxlength' => 64,
-    '#size' => 15,
+    '#size' => 60,
     '#required' => TRUE,
-    '#atributes' => array('class' => array('link')),
+    '#attributes' => array('class' => array('title')),
   );
   $form['setting']['link'] = array(
     '#title' => t('Link'),
     '#type' => 'textfield',
     '#maxlength' => 124,
     '#required' => TRUE,
-
+    '#atributes' => array('class' => array('link')),
+    '#description' => t('Input link in format "http://" or "https://".')
   );
   $form['setting']['icon'] = array(
     '#title' => t('Upload icon'),
