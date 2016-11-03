@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function social_icons_menu() {
+  $items['admin/config/administration/social-icon'] = array(
+    'title' => t('Social Icons'),
+    'description' => t('Setting social icons'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('social_icons_setting_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_form()
+ */
+function social_icons_setting_form($form, &$form_state) {
+  $form['setting'] = array(
+    '#title' => t('Add icon'),
+    '#type' => 'fieldset',
+    '#attributes' => array('class' => array('title')),
+    '#required' => TRUE,
+  );
+  $form['setting']['title'] = array(
+    '#title' => t('Title'),
+    '#type' => 'textfield',
+    '#maxlength' => 64,
+    '#size' => 15,
+    '#required' => TRUE,
+    '#atributes' => array('class' => array('link')),
+  );
+  $form['setting']['link'] = array(
+    '#title' => t('Link'),
+    '#type' => 'textfield',
+    '#maxlength' => 124,
+    '#required' => TRUE,
+
+  );
+  $form['setting']['icon'] = array(
+    '#title' => t('Upload icon'),
+    '#type' => 'file',
+    '#required' => TRUE,
+
+  );
+  $form['setting']['icon_hover'] = array(
+    '#title' => t('Upload hover icon'),
+    '#type' => 'file',
+    '#required' => TRUE,
+
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit')
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_forms_validate().
+ */
+function social_icons_setting_form_validate($form_id, $form_state) {
+  if($form_state['values']['title'] == 'Title'){
+    form_set_error('title', t('"Title" do not validate this form.'));
+  }
+}
+
+/**
+ * Implements hook_form_submit()
+ */
+function social_icons_setting_form_submit($form, $form_state) {
+
+}

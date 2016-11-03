@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * Implements hook_schema()
+ */
+function social_icons_schema() {
+  $schema['social_icons'] = array(
+    'description' => t('Table for Social Icons module'),
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => t('Primary key')
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'description' => t('Title link')
+      ),
+      'link' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => t('Link')
+      ),
+      'icon' => array(
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+        'description' => t('Icon')
+      ),
+      'hover_icon' => array(
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+        'description' => t('Hover icon')
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'title' => array('title')
+    ),
+  );
+  return $schema;
+}

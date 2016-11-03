@@ -1,0 +1,7 @@
+name = Social Icons
+description = This module show of icons to social network
+core = 7.x
+package = Soft Group
+files[] = social_icons.module
+files[] = social_icons.install
+configure = admin/config/administration/social-icon
