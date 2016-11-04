@@ -905,6 +905,6 @@ function template_preprocess_admin_menu_icon(&$variables) {
  * @ingroup themeable
  */
 function theme_admin_menu_icon($variables) {
-  return '<img class="admin-menu-icon" src="' . $variables['src'] . '" width="16" height="16" alt="' . $variables['alt'] . '" />';
+  return '<images class="admin-menu-icon" src="' . $variables['src'] . '" width="16" height="16" alt="' . $variables['alt'] . '" />';
 }
 

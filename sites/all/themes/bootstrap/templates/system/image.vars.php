@@ -21,6 +21,6 @@ function bootstrap_preprocess_image(&$variables) {
 
   // Add responsiveness, if necessary.
   if (bootstrap_setting('image_responsive')) {
-    _bootstrap_add_class('img-responsive', $variables);
+    _bootstrap_add_class('images-responsive', $variables);
   }
 }

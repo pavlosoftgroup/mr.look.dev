@@ -435,7 +435,7 @@ function ds_extras_form_node_form_alter(&$form, $form_state, $form_id) {
       }
 
       $form['ds_extras']['preview']['image'] = array(
-        '#markup' => '<div class="ds-layout-preview-image"><img src="' . base_path() . $image . '"/></div>',
+        '#markup' => '<div class="ds-layout-preview-image"><images src="' . base_path() . $image . '"/></div>',
       );
     }
   }

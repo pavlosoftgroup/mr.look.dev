@@ -541,13 +541,13 @@ function ds_field_ui_layout_change($form, $form_state, $entity_type = '', $bundl
     $arrow = drupal_get_path('module', 'ds') . '/images/arrow.png';
 
     $form['preview']['old_layout'] = array(
-      '#markup' => '<div class="ds-layout-preview-image"><img src="' . base_path() . $old_image . '"/></div>',
+      '#markup' => '<div class="ds-layout-preview-image"><images src="' . base_path() . $old_image . '"/></div>',
     );
     $form['preview']['arrow'] = array(
-      '#markup' => '<div class="ds-layout-preview-arrow"><img src="' . base_path() . $arrow . '"/></div>',
+      '#markup' => '<div class="ds-layout-preview-arrow"><images src="' . base_path() . $arrow . '"/></div>',
     );
     $form['preview']['new_layout'] = array(
-      '#markup' => '<div class="ds-layout-preview-image"><img src="' . base_path() . $new_image . '"/></div>',
+      '#markup' => '<div class="ds-layout-preview-image"><images src="' . base_path() . $new_image . '"/></div>',
     );
     $form['#attached']['css'][] = drupal_get_path('module', 'ds') . '/css/ds.admin.css';
 
@@ -1926,7 +1926,7 @@ function _ds_field_ui_table_layouts_preview(&$form, &$form_state, $ds_layouts, $
         '#markup' => '<div class="ds-layout-preview-title">' . $current_layout . '</div>',
       );
       $form['additional_settings']['ds_layouts']['preview'] ['image'] = array(
-        '#markup' => '<div class="ds-layout-preview-image"><img src="' . base_path() . $image . '"/></div>',
+        '#markup' => '<div class="ds-layout-preview-image"><images src="' . base_path() . $image . '"/></div>',
       );
       $form['additional_settings']['ds_layouts']['preview']['info'] = array(
         '#type' => 'container',

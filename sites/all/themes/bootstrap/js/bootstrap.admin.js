@@ -111,7 +111,7 @@
         // Unfortunately getbootstrap.com does not have HTTPS enabled, so the
         // preview image cannot be protocol relative.
         // @todo Make protocol relative if/when Bootstrap enables HTTPS.
-        $preview.append('<a id="bootstrap-theme-preview-bootstrap_theme" class="bootswatch-preview element-invisible" href="http://getbootstrap.com/examples/theme/" target="_blank"><img class="img-responsive" src="http://getbootstrap.com/examples/screenshots/theme.jpg" alt="' + Drupal.t('Preview of the Bootstrap theme') + '" /></a>');
+        $preview.append('<a id="bootstrap-theme-preview-bootstrap_theme" class="bootswatch-preview element-invisible" href="http://getbootstrap.com/examples/theme/" target="_blank"><images class="images-responsive" src="http://getbootstrap.com/examples/screenshots/theme.jpg" alt="' + Drupal.t('Preview of the Bootstrap theme') + '" /></a>');
 
         // Retrieve the Bootswatch theme preview images.
         // @todo This should be moved into PHP.
@@ -121,7 +121,7 @@
           success: function (json) {
             var themes = json.themes;
             for (var i = 0, len = themes.length; i < len; i++) {
-              $preview.append('<a id="bootstrap-theme-preview-' + themes[i].name.toLowerCase() + '" class="bootswatch-preview element-invisible" href="' + themes[i].preview + '" target="_blank"><img class="img-responsive" src="' + themes[i].thumbnail.replace(/^http:/, 'https:') + '" alt="' + Drupal.t('Preview of the @title Bootswatch theme', { '@title': themes[i].name }) + '" /></a>');
+              $preview.append('<a id="bootstrap-theme-preview-' + themes[i].name.toLowerCase() + '" class="bootswatch-preview element-invisible" href="' + themes[i].preview + '" target="_blank"><images class="images-responsive" src="' + themes[i].thumbnail.replace(/^http:/, 'https:') + '" alt="' + Drupal.t('Preview of the @title Bootswatch theme', { '@title': themes[i].name }) + '" /></a>');
             }
           },
           complete: function () {

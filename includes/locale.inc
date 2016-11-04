@@ -538,9 +538,9 @@ function locale_language_url_rewrite_session(&$path, &$options) {
  * a &amp; in the translation would get encoded to &amp;amp; by filter_xss()
  * before being put in the database, and thus would be displayed incorrectly.
  *
- * The allowed tag list is like filter_xss_admin(), but omitting div and img as
+ * The allowed tag list is like filter_xss_admin(), but omitting div and images as
  * not needed for translation and likely to cause layout issues (div) or a
- * possible attack vector (img).
+ * possible attack vector (images).
  */
 function locale_string_is_safe($string) {
   // Some strings have tokens in them. For tokens in the first part of href or

@@ -5,7 +5,7 @@
     callback: function(context, settings, form, farb, height, width) {
       // Change the logo to be the real one.
       if (!this.logoChanged) {
-        $('#preview #preview-logo img').attr('src', Drupal.settings.color.logo);
+        $('#preview #preview-logo images').attr('src', Drupal.settings.color.logo);
         this.logoChanged = true;
       }
       // Remove the logo if the setting is toggled off. 

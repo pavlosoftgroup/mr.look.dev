@@ -3,3 +3,11 @@ description = Mr.Look theme
 core = 7.x
 base theme = bootstrap
 
+stylesheets[all][] = css/style.css
+
+regions[top_menu] = Top menu
+regions[top_phones] = Top phones
+regions[top_call_me] = Call me
+regions[top_cart] = Cart
+regions[search] = Search
+;regions[] =

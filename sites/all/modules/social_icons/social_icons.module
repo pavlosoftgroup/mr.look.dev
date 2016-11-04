@@ -7,12 +7,34 @@ function social_icons_menu() {
   $items['admin/config/administration/social-icon'] = array(
     'title' => t('Social Icons'),
     'description' => t('Setting social icons'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('social_icons_setting_form'),
+    'page callback' => 'social_icons_list',
     'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
   );
+  $items['admin/config/administration/social-icon/list'] = array(
+    'title' => t('Social Icons List'),
+    'description' => t('List social icons'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0,
+  );
+  $items['admin/config/administration/social-icon/add'] = array(
+    'title' => t('Add Social Icons'),
+    'description' => t('Setting social icons'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('social_icons_setting_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
   return $items;
+}
+
+/**
+ * Reslisation function social_icons_list()
+ * Callback icon list
+ */
+function social_icons_list(){
+  return t('Icon list');
 }
 
 /**
@@ -42,14 +64,14 @@ function social_icons_setting_form($form, &$form_state) {
   );
   $form['setting']['icon'] = array(
     '#title' => t('Upload icon'),
-    '#type' => 'file',
-    '#required' => TRUE,
+    '#type' => 'managed_file',
+  //  '#required' => TRUE,
 
   );
   $form['setting']['icon_hover'] = array(
     '#title' => t('Upload hover icon'),
-    '#type' => 'file',
-    '#required' => TRUE,
+    '#type' => 'managed_file',
+  //  '#required' => TRUE,
 
   );
   $form['submit'] = array(
@@ -63,14 +85,43 @@ function social_icons_setting_form($form, &$form_state) {
  * Implements hook_forms_validate().
  */
 function social_icons_setting_form_validate($form_id, $form_state) {
-  if($form_state['values']['title'] == 'Title'){
-    form_set_error('title', t('"Title" do not validate this form.'));
+
+  if(!preg_match('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/', $form_state['values']['link'])){
+    form_set_error('link', t('"Link" do not begin "http://" or "https://".'));
   }
+
+  $validators = array(
+  //  'file_validate_is_image' => array(), // Проверка, действительно ли файл является изображением
+   // 'file_validate_extensions' => array('png gif jpg jpeg'), // Проверка на расширения
+    //'file_validate_size' => array(1 * 1024 * 1024), // Проверка на размер файла (максимум 1mb)
+  );
+  // Загружаем файл в sites/default/files (по умолчанию)
+//  if ($file = file_save_upload('icon', $validators, 'public://')) {
+//    $form_state['values']['icon'] = $file; // передаём информацию о файле в ф-ю social_icons_setting_form_submit()
+//  }
+//  else {
+//    form_set_error('icon', 'Файл не был загружен');
+//  }
 }
 
 /**
  * Implements hook_form_submit()
  */
 function social_icons_setting_form_submit($form, $form_state) {
+  // загружем основную иконку
+  $file = file_load($form_state['values']['icon']);
+  $file->status = FILE_STATUS_PERMANENT;
+  file_save($file);
+
+  dpm( file_load($form_state['values']['icon']));
+//  $query = db_insert('social_icons')
+//    ->fields(array(
+//      'title' => $form_state['values']['title'],
+//      'link' => $form_state['values']['link'],
+//      'icon' => $form_state['values']['icon'],
+//      'hover_icon' => $form_state['values']['hover_icon'],
+//    ))
+//    ->execute();
+
 
 }
