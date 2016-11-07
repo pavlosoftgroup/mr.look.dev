@@ -1,7 +1,7 @@
 name = Mr.Look
 description = Mr.Look theme
 core = 7.x
-base theme = bootstrap
+;base theme = adaptivetheme
 
 stylesheets[all][] = css/style.css
 
@@ -10,4 +10,6 @@ regions[top_phones] = Top phones
 regions[top_call_me] = Call me
 regions[top_cart] = Cart
 regions[search] = Search
+regions[content] = Content
+;regions[] =
 ;regions[] =

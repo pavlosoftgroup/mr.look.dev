@@ -48,7 +48,7 @@
           if ($logo || $site_title) {
             print '<h1 id="branding"><a href="' . $base_path . '" title="' . $site_title . '">';
             if ($logo) {
-              print '<images src="' . $logo . '" alt="' . $site_title . '" id="logo" />';
+              print '<img src="' . $logo . '" alt="' . $site_title . '" id="logo" />';
             }
             print $site_html . '</a></h1>';
           }

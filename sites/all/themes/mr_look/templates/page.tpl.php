@@ -20,6 +20,7 @@
 <?php if (!empty($primary_nav)): ?>
   <?php print render($primary_nav); ?>
 <?php endif; ?>
+<?php print render($page['search']); ?>
 <nav class="nav__block">
   <ul class="nav__panel">
     <li class="nav__list"><a href="" class="nav__link">Техника <br>Apple</a>
@@ -34,3 +35,4 @@
         планшетов</a></li>
   </ul>
 </nav>
+<?php print render($page['content']); ?>

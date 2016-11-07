@@ -50,7 +50,7 @@ Drupal.behaviors.color = {
 
     // Fix preview background in IE6.
     if (navigator.appVersion.match(/MSIE [0-6]\./)) {
-      var e = $('#preview #images')[0];
+      var e = $('#preview #img')[0];
       var image = e.currentStyle.backgroundImage;
       e.style.backgroundImage = 'none';
       e.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=crop, src='" + image.substring(5, image.length - 2) + "')";

@@ -1872,7 +1872,7 @@ function theme_links($variables) {
  *     - http://dev.w3.org/html5/spec/Overview.html#alt
  *   - title: The title text is displayed when the image is hovered in some
  *     popular browsers.
- *   - attributes: Associative array of attributes to be placed in the images tag.
+ *   - attributes: Associative array of attributes to be placed in the img tag.
  */
 function theme_image($variables) {
   $attributes = $variables['attributes'];
@@ -1885,7 +1885,7 @@ function theme_image($variables) {
     }
   }
 
-  return '<images' . drupal_attributes($attributes) . ' />';
+  return '<img' . drupal_attributes($attributes) . ' />';
 }
 
 /**
