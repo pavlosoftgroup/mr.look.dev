@@ -37,8 +37,8 @@ function social_icons_menu() {
   $items['admin/config/administration/social-icon/%social_icons/delete'] = array(
     'title' => t('Delete Social Icons'),
     'description' => t('Setting social icons'),
-    'page callback' => 'social_icons_delete',
-    'page arguments' => array(4),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('social_icons_delete_form', 4),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_CALLBACK,
   );
@@ -139,19 +139,18 @@ function social_icons_list() {
 /**
  * Implements hook_form()
  */
-function social_icons_setting_form($form, &$form_state, $op = 'edit') {
-  $arg = is_numeric(arg(4)) ? arg(4) : NULL;
-  $social_icons = isset($arg) ? social_icons_load(arg(4)) : '';
+function social_icons_setting_form($form, &$form_state, $social_icons, $op = 'edit') {
+ // $arg = is_numeric(arg(4)) ? arg(4) : NULL;
+//  $social_icons = isset($arg) ? social_icons_load(arg(4)) : '';
 
   $form['setting'] = array(
     '#title' => t('Add icon'),
     '#type' => 'fieldset',
-    '#required' => TRUE,
   );
-  dpm(arg(4));
-  $form['id'] = array(
-    '#type' => 'textfield',
-    '#value' => isset($social_icons->id) ?  $social_icons->id : NULL,
+  dpm($social_icons->id);
+  $form['setting']['id'] = array(
+    '#type' => 'value',
+    '#value' => isset($social_icons->id) ?  $social_icons->id : FALSE,
   );
   $form['setting']['title'] = array(
     '#title' => t('Title'),
@@ -197,20 +196,25 @@ function social_icons_setting_form($form, &$form_state, $op = 'edit') {
 /**
  * Implements hook_forms_validate().
  */
-function social_icons_setting_form_validate($form_id, $form_state) {
+function social_icons_setting_form_validate($form, $form_state) {
 
   if (!preg_match('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/', $form_state['values']['link'])) {
     form_set_error('link', t('"Link" do not begin "http://" or "https://".'));
   }
 
   $validators = array(
-    //  'file_validate_is_image' => array(), // Проверка, действительно ли файл является изображением
+     'file_validate_is_image' => array(), // Проверка, действительно ли файл является изображением
     // 'file_validate_extensions' => array('png gif jpg jpeg'), // Проверка на расширения
     //'file_validate_size' => array(1 * 1024 * 1024), // Проверка на размер файла (максимум 1mb)
   );
-  $icon = file_save_upload('icon', $validators, 'public://');
-  $hover_icon = file_save_upload('hover_icon', $validators, 'public://');
-  // $form_state['values']['icon'] = $icon;
+  $icon = file_save_upload('icon', $validators);
+ // if ($icon = file_move($icon, 'public://')) {
+    // Save the file for use in the submit handler.
+   // $form_state['values']['icon'] = $icon;
+ // }
+  $hover_icon = file_save_upload('hover_icon', $validators);
+   $form_state['values']['hover_icon'] = $hover_icon;
+
   // Загружаем файл в sites/default/files (по умолчанию)
 //  if ($file = file_save_upload('icon', $validators, 'public://')) {
 //    $form_state['values']['icon'] = $file; // передаём информацию о файле в ф-ю social_icons_setting_form_submit()
@@ -225,12 +229,12 @@ function social_icons_setting_form_validate($form_id, $form_state) {
  */
 function social_icons_setting_form_submit($form, &$form_state) {
   // загружем основную иконку
-//  $icon = file_load($form_state['values']['icon']);
-// $icon->status = FILE_STATUS_PERMANENT;
-  //$icon_save = file_save($icon);
+  $icon = file_load($form_state['values']['icon']);
+ // $icon->status = 1;
+  $icon = file_save($icon);
   dpm($form_state['values']);
-  if (isset($form_state['values']['id'])) {
-    $social_icons = social_icons_load($form_state['values']['title']);
+  if ($form_state['values']['id']) {
+    $social_icons = social_icons_load($form_state['values']['id']);
     $social_icons->title = $form_state['values']['title'];
     $social_icons->link = $form_state['values']['link'];
     $social_icons->icon = $form_state['values']['icon'];
@@ -251,4 +255,46 @@ function social_icons_setting_form_submit($form, &$form_state) {
     drupal_set_message(t('Form submit'));
   }
   $form_state['redirect'] = 'admin/config/administration/social-icon/list';
+}
+
+/**
+ * Realised delete entity
+ */
+function social_icons_delete_form($form, &$form_state, $social_icons) {
+//  if (!drupal_valid_token($_GET['token'], 'social_icons-' . $social_icons->id)) {
+//    return drupal_access_denied();
+//  }
+  $form['delete']= array(
+    '#title' => t('Delete Icons'),
+    '#type' => 'fieldset',
+  );
+  $form['id'] = array(
+    '#type' => 'value',
+    '#value' => $social_icons->id
+  );
+  $form['delete']['back'] = array(
+    '#type' => 'markup',
+    '#markup' => l(t('Return back'), 'admin/config/administration/social-icon/list')
+  );
+  $form['delete']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete'),
+    '#submit' => array('social_icon_delete_form_submit'),
+   // '#validate' => TRUE,
+
+  );
+  return $form;
+}
+
+/**
+ * Function delete entity social_icons
+ */
+function social_icon_delete_form_submit($form, &$form_state) {
+  $delete = entity_delete('social_icons', $form_state['values']['id']);
+  if ($delete) {
+    drupal_set_message(t('Icons delete'));
+  }
+  $form_state['redirect'] = 'admin/config/administration/social-icon/list';
+
+
 }
