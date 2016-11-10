@@ -35,4 +35,6 @@
         планшетов</a></li>
   </ul>
 </nav>
+<?php print render($page['highlighted']); ?>
+<?php print render($page['help']); ?>
 <?php print render($page['content']); ?>

@@ -1,4 +1,5 @@
 <?php
+module_load_include('inc', 'social_icons', 'includes/social_icons.block');
 
 /**
  * Implements hook_menu().
@@ -24,6 +25,7 @@ function social_icons_menu() {
     'page arguments' => array('social_icons_setting_form'),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_LOCAL_TASK,
+   // 'file' => 'inc/social_icons_edit.inc',
     'weight' => 1,
   );
   $items['admin/config/administration/social-icon/%social_icons/edit'] = array(
@@ -32,6 +34,7 @@ function social_icons_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('social_icons_setting_form', 4),
     'access arguments' => array('administer site configuration'),
+    //'file' => 'inc/social_icons_edit.inc',
     'type' => MENU_CALLBACK,
   );
   $items['admin/config/administration/social-icon/%social_icons/delete'] = array(
@@ -40,10 +43,12 @@ function social_icons_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('social_icons_delete_form', 4),
     'access arguments' => array('administer site configuration'),
+    //'file' => 'inc/social_icons_edit.inc',
     'type' => MENU_CALLBACK,
   );
   return $items;
 }
+
 
 /**
  * Implements hook_entity_info()
@@ -93,7 +98,7 @@ function social_icons_load($id) {
 
 /**
  * Function return array for theme_image()
- * @param $fid files
+ * @param $fid - fid of files
  *
  */
 function _image_array($fid) {
@@ -106,7 +111,7 @@ function _image_array($fid) {
 }
 
 /**
- * Reslisation function social_icons_list()
+ * Realisation function social_icons_list()
  * Callback icon list
  */
 function social_icons_list() {
@@ -139,15 +144,14 @@ function social_icons_list() {
 /**
  * Implements hook_form()
  */
-function social_icons_setting_form($form, &$form_state, $social_icons, $op = 'edit') {
- // $arg = is_numeric(arg(4)) ? arg(4) : NULL;
+function social_icons_setting_form($form, &$form_state, $social_icons = NULL, $op = 'edit') {
+  // $arg = is_numeric(arg(4)) ? arg(4) : NULL;
 //  $social_icons = isset($arg) ? social_icons_load(arg(4)) : '';
 
   $form['setting'] = array(
     '#title' => t('Add icon'),
     '#type' => 'fieldset',
   );
-  dpm($social_icons->id);
   $form['setting']['id'] = array(
     '#type' => 'value',
     '#value' => isset($social_icons->id) ?  $social_icons->id : FALSE,
@@ -203,17 +207,17 @@ function social_icons_setting_form_validate($form, $form_state) {
   }
 
   $validators = array(
-     'file_validate_is_image' => array(), // Проверка, действительно ли файл является изображением
+    'file_validate_is_image' => array(), // Проверка, действительно ли файл является изображением
     // 'file_validate_extensions' => array('png gif jpg jpeg'), // Проверка на расширения
     //'file_validate_size' => array(1 * 1024 * 1024), // Проверка на размер файла (максимум 1mb)
   );
   $icon = file_save_upload('icon', $validators);
- // if ($icon = file_move($icon, 'public://')) {
-    // Save the file for use in the submit handler.
-   // $form_state['values']['icon'] = $icon;
- // }
+  // if ($icon = file_move($icon, 'public://')) {
+  // Save the file for use in the submit handler.
+  // $form_state['values']['icon'] = $icon;
+  // }
   $hover_icon = file_save_upload('hover_icon', $validators);
-   $form_state['values']['hover_icon'] = $hover_icon;
+  $form_state['values']['hover_icon'] = $hover_icon;
 
   // Загружаем файл в sites/default/files (по умолчанию)
 //  if ($file = file_save_upload('icon', $validators, 'public://')) {
@@ -230,9 +234,8 @@ function social_icons_setting_form_validate($form, $form_state) {
 function social_icons_setting_form_submit($form, &$form_state) {
   // загружем основную иконку
   $icon = file_load($form_state['values']['icon']);
- // $icon->status = 1;
+  // $icon->status = 1;
   $icon = file_save($icon);
-  dpm($form_state['values']);
   if ($form_state['values']['id']) {
     $social_icons = social_icons_load($form_state['values']['id']);
     $social_icons->title = $form_state['values']['title'];
@@ -280,7 +283,7 @@ function social_icons_delete_form($form, &$form_state, $social_icons) {
     '#type' => 'submit',
     '#value' => t('Delete'),
     '#submit' => array('social_icon_delete_form_submit'),
-   // '#validate' => TRUE,
+    // '#validate' => TRUE,
 
   );
   return $form;
